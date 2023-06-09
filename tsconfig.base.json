@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@alertx/core": ["libs/core/src/index.ts"],
       "alertx": ["libs/react-alertx/src/index.ts"]
     }
   },
