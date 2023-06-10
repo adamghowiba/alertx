@@ -1,8 +1,19 @@
 import { Alert } from '@alertx/core';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 
 interface AlertContextState {
   alerts: Alert[];
+  addAlert: (alert: Alert) => void;
+  updateAlert: (id: string, alert: Alert) => void;
+  removeAlert: (id: string) => void;
 }
 
-export const AlertContext = createContext<AlertContextState>({ alerts: [] });
+// eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any
+const emptyFunction = (): any => {};
+
+export const AlertContext = createContext<AlertContextState>({
+  alerts: [],
+  addAlert: emptyFunction,
+  removeAlert: emptyFunction,
+  updateAlert: emptyFunction,
+});
