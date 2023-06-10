@@ -7,14 +7,20 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/react-alertx/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "libs/react-alertx/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "build": {
       "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/libs/react-alertx"
@@ -26,6 +32,30 @@
         "production": {
           "mode": "production"
         }
+      }
+    },
+    "publish:major": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "npm version major && npm publish --access=public",
+        "cwd": "/dist/libs/react-alertx",
+        "parallel": false
+      }
+    },
+    "publish:minor": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "npm version minor && npm publish --access=public",
+        "cwd": "/dist/libs/react-alertx",
+        "parallel": false
+      }
+    },
+    "publish:patch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "npm version patch && npm publish --access=public",
+        "cwd": "/dist/libs/react-alertx",
+        "parallel": false
       }
     }
   }

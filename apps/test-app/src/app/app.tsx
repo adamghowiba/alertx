@@ -1,11 +1,11 @@
-import NxWelcome from './nx-welcome';
+import { Alert } from 'alertx';
 
 export function App() {
   return (
     <div>
-      <style jsx>{`
-        /** your style here **/
-      `}</style>
+      <Alert />
+
+      <style jsx>{``}</style>
     </div>
   );
 }
