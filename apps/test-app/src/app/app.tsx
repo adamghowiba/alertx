@@ -2,7 +2,7 @@ import { AlertStore } from '@alertx/core';
 import { Alert, AlertProvider } from '@alertx/react-alertx';
 import Page from './page';
 
-const store = new AlertStore({ maxAlerts: 10 });
+const store = new AlertStore({ maxAlerts: 3 });
 
 export function App() {
   return (

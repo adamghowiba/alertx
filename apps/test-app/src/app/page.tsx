@@ -1,4 +1,5 @@
 import { useAlerts } from '@alertx/react-alertx';
+import { nanoid } from 'nanoid';
 import React, { useEffect } from 'react';
 
 const Page = () => {
@@ -8,8 +9,7 @@ const Page = () => {
     addAlert({
       title: 'Data successful',
       message: "Upload successful continue.",
-      id: Math.random().toString(),
-      persist: true
+      id: nanoid(),
     });
   };
 

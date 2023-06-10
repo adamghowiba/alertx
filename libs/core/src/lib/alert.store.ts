@@ -29,26 +29,38 @@ export class AlertStore {
   private readonly maxAlerts: number;
 
   constructor(private readonly config: AlertStoreConfig) {
-    this.maxAlerts = config.maxAlerts || 5;
+    this.maxAlerts = config.maxAlerts || 2;
   }
 
-  getIsQueueFull() {
+  isQueueFull() {
     return this.alerts.length >= this.maxAlerts;
   }
 
-  alert(params: Alert) {
-    this.alerts = [...this.alerts, params];
+  alert(alert: Alert) {
+    console.log(this.alerts.length, this.maxAlerts);
+    if (this.alerts.length >= this.maxAlerts) {
+      this.queue = [...this.queue, alert];
+      return;
+    }
+
+    this.alerts = [...this.alerts, {...alert}];
     this.subject.next(this.alerts);
 
-    if (!params.persist) {
-      timer(params.showDuration || 3000).subscribe(() => {
-        this.remove(params.id);
+    if (!alert.persist) {
+      timer(alert.showDuration || 3000).subscribe(() => {
+        this.remove(alert.id);
       });
     }
   }
 
   remove(id: string) {
     this.alerts = this.alerts.filter((alert) => alert.id !== id);
+    if (this.queue.length) {
+      const firstQueueELement = this.queue.splice(this.queue.length - 1, 1)[0];
+
+      if (firstQueueELement) this.alert(firstQueueELement);
+    }
+
     this.subject.next(this.alerts);
   }
 

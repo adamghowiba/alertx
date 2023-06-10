@@ -38,6 +38,7 @@ export const AlertItem: FC<AlertItemProps> = ({
         }
 
         .alert__title {
+          font-weight: 600;
           font-size: var(--ax-text-p3);
           color: var(--ax-color-content-secondary);
         }

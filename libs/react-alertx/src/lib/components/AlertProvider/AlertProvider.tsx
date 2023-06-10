@@ -2,6 +2,7 @@ import { Alert, AlertStore } from '@alertx/core';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { AlertContext } from '../../contexts/AlertContext';
 import { AlertItem } from '../Alert/AlertItem';
+import { nanoid } from 'nanoid';
 
 export interface AlertProviderProps extends PropsWithChildren {
   store: AlertStore;
@@ -45,7 +46,7 @@ export const AlertProvider: FC<AlertProviderProps> = ({
           {alerts.map((alert) => (
             <AlertItem
               key={alert.id}
-              message={alert.message}
+              message={`${alert.message} - ${alert.id}`}
               title={alert?.title}
             />
           ))}
