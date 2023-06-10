@@ -4,14 +4,14 @@ Used to handle alert related logic
 
 import { Subject } from 'rxjs';
 
-interface AlertDetails {
+export interface AlertDetails {
   id: string;
   title?: string;
   message: string;
   helperText: string;
 }
 
-interface AlertConfig {
+export interface AlertConfig {
   showDuration?: number;
   persist?: boolean;
   anchorOrigin?: {
@@ -21,7 +21,7 @@ interface AlertConfig {
   loading?: boolean;
 }
 
-type Alert = AlertDetails & AlertConfig;
+export type Alert = AlertDetails & AlertConfig;
 
 export class AlertStore {
   private alerts: Alert[] = [];
