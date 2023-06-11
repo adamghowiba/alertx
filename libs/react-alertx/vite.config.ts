@@ -14,12 +14,7 @@ export default defineConfig({
       tsConfigFilePath: joinPathFragments(__dirname, 'tsconfig.lib.json'),
       skipDiagnostics: true,
     }),
-    react({
-      babel: {
-        plugins: ['styled-jsx/babel'],
-        babelrc: true,
-      },
-    }),
+    react(),
     viteTsConfigPaths({
       root: '../../',
     }),

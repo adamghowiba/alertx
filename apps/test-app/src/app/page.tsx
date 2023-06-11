@@ -45,18 +45,27 @@ const Page = () => {
         />
       </div>
 
+      <div className="main">
+        <h1>Should bne red</h1>
+      </div>
 
       <style jsx>
         {`
-        .center {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 1rem;
-          width: 100%;
-          height: 100%;
-        }
+          .main {
+            h1 {
+              color: red;
+              border: 1px solid red;
+            }
+          }
+          .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            height: 100%;
+          }
         `}
       </style>
     </div>
