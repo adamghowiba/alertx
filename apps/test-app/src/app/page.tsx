@@ -1,7 +1,8 @@
-import { useAlerts } from '@alertx/react-alertx';
+import { AlertTailwind, useAlerts } from '@alertx/react-alertx';
 import { AlertItem } from 'libs/react-alertx/src/lib/components/Alert/AlertItem';
 import { nanoid } from 'nanoid';
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
 const Page = () => {
   const { addAlert, alerts } = useAlerts();
@@ -39,6 +40,12 @@ const Page = () => {
           status="error"
         />
         <AlertItem
+          title="This is an alert"
+          message="this is an alert message"
+          status="warning"
+        />
+
+        <AlertTailwind
           title="This is an alert"
           message="this is an alert message"
           status="warning"

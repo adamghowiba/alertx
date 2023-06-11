@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react';
-import styled from 'styled-components';
+import React, { FC, ReactNode } from 'react';
+import classNames from 'classnames';
 
 export type AlertStatus = 'info' | 'success' | 'warning' | 'error';
 
@@ -27,56 +27,6 @@ const STATUS_COLOR_DEFAULTS: Required<AlertItemProps['colors']> = {
   success: 'var(--ax-color-success)',
 };
 
-const AlertDetailsDiv = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const AlertDiv = styled.div<{
-  statusColors: Required<AlertItemProps['colors']>;
-  status: AlertStatus;
-}>`
-  display: flex;
-  justify-content: space-between;
-  padding: 14px;
-  box-shadow: 0px 8px 18px -6px rgba(24, 44, 75, 0.12),
-    0px 12px 42px -4px rgba(24, 44, 75, 0.12);
-  border-radius: 8px;
-  border-left: 3px solid
-    ${(props) =>
-      props.statusColors
-        ? props.statusColors[props.status]?.toString()
-        : 'black'};
-`;
-
-const AlertIcon = styled.div<{
-  statusColors: Required<AlertItemProps['colors']>;
-  status: AlertStatus;
-}>`
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: ${(props) =>
-    props.statusColors
-      ? props.statusColors[props.status]?.toString()
-      : 'black'};
-`;
-
-const AlertMessageDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: var(--ax-text-p3);
-  color: var(--ax-color-content-tertiary);
-`;
-
-const AlertTitleSpan = styled.span``;
-
-const AlertActionDiv = styled.div`
-  display: flex;
-  gap: var(--space-sm);
-`;
-
 export const AlertItem: FC<AlertItemProps> = ({
   message,
   title,
@@ -89,20 +39,18 @@ export const AlertItem: FC<AlertItemProps> = ({
 
   return (
     <>
-      <AlertDiv statusColors={statusColors} status={status}>
-        {/* <div className={classNames('ax', 'alert', `alert--${status}`)}> */}
-        <AlertDetailsDiv className="ax">
-          <AlertIcon statusColors={statusColors} status={status}></AlertIcon>
+      <div className={classNames('ax', 'alert', `alert--${status}`)}>
+        <div className="alert__details">
+          <div className="alert__icon"></div>
 
-          <AlertMessageDiv>
-            <AlertTitleSpan>{title}</AlertTitleSpan>
-            <span>{message}</span>
-          </AlertMessageDiv>
-        </AlertDetailsDiv>
+          <div className="alert__message">
+            <span className="alert__title">{title}</span>
+            <span className="alert__message">{message}</span>
+          </div>
+        </div>
 
-        <AlertActionDiv>{actions}</AlertActionDiv>
-        {/* </div> */}
-      </AlertDiv>
+        <div className="alert__actions">{actions}</div>
+      </div>
 
       <style jsx>{`
         .alert {
@@ -113,12 +61,19 @@ export const AlertItem: FC<AlertItemProps> = ({
             0px 12px 42px -4px rgba(24, 44, 75, 0.12);
           border-radius: 8px;
           border-left: 2px solid ${statusColors[status]};
+
+          * {
+            background-color: red;
+          }
         }
 
         .alert__details {
           display: flex;
           align-items: center;
           gap: 1rem;
+        }
+
+        body {
         }
 
         .alert__icon {

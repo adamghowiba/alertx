@@ -7,4 +7,6 @@ export type { AlertItemProps as AlertProps } from './lib/components/Alert/AlertI
 export { AlertProvider } from './lib/components/AlertProvider/AlertProvider';
 export type { AlertProviderProps } from './lib/components/AlertProvider/AlertProvider';
 
+export { AlertItem as AlertTailwind } from './lib/components/Alert/AlertItemTailwind';
+
 export { useAlerts } from './lib/hooks/use-alerts';
