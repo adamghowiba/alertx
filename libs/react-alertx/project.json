@@ -23,7 +23,8 @@
       ],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/react-alertx"
+        "outputPath": "dist/libs/react-alertx",
+        "babelrc": true
       },
       "configurations": {
         "development": {

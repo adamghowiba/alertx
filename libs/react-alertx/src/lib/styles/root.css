@@ -5,7 +5,7 @@
   --ax-color-blue-dark: #2563EB;
 
   --ax-color-red: #D15049;
-  --ax-color-critical: var(--ax-color-red);
+  --ax-color-error: var(--ax-color-red);
   /* --color-red-500: var(--color-red);
   --color-red-700: #752D29;
   --color-red-600: #993B36;
