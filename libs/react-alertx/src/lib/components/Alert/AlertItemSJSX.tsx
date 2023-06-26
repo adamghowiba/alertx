@@ -53,6 +53,14 @@ export const AlertItem: FC<AlertItemProps> = ({
       </div>
 
       <style jsx>{`
+        h1 {
+          color: red;
+        }
+
+        .red {
+          color: red;
+        }
+
         .alert {
           display: flex;
           justify-content: space-between;
@@ -61,10 +69,6 @@ export const AlertItem: FC<AlertItemProps> = ({
             0px 12px 42px -4px rgba(24, 44, 75, 0.12);
           border-radius: 8px;
           border-left: 2px solid ${statusColors[status]};
-
-          * {
-            background-color: red;
-          }
         }
 
         .alert__details {

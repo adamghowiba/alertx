@@ -1,4 +1,4 @@
-import { AlertTailwind, useAlerts } from '@alertx/react-alertx';
+import { AlertJsx, AlertTailwind, useAlerts } from '@alertx/react-alertx';
 import { AlertItem } from 'libs/react-alertx/src/lib/components/Alert/AlertItem';
 import { nanoid } from 'nanoid';
 import { useEffect } from 'react';
@@ -29,6 +29,12 @@ const Page = () => {
           status="info"
         />
 
+        <AlertJsx
+          title="This is an alert"
+          message="this is an alert message"
+          status="warning"
+        />
+
         <AlertTailwind
           title="This is an alert"
           message="this is an alert message"
@@ -37,7 +43,8 @@ const Page = () => {
       </div>
 
       <div className="main">
-        <h1>Should bne red</h1>
+        <h1>Should bne red h1</h1>
+        <h2 className="red">Should bne red class</h2>
       </div>
 
       <style jsx>

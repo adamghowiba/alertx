@@ -45,7 +45,7 @@ export const AlertItem: FC<AlertItemProps> = ({
       >
         <div className="flex items-center gap-1">
           <div
-            className={`"w-[15px] h-[15px] bg-[${statusColors[status]}]"`}
+            className={`w-[20px] h-[15px] bg-[${statusColors[status]}]"`}
           ></div>
 
           <div className="alert__message">
