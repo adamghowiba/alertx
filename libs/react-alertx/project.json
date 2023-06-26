@@ -16,6 +16,12 @@
         ]
       }
     },
+    "full-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tailwindcss@latest -c ./libs/react-alertx/tailwind.config.js -o ./libs/react-alertx/tailwind.css"
+      }
+    },
     "build": {
       "executor": "@nx/vite:build",
       "outputs": [
@@ -23,8 +29,8 @@
       ],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/react-alertx",
-        "babelrc": true
+        "postcssConfig": "/libs/react-alertx/postcss.config.js",
+        "outputPath": "dist/libs/react-alertx"
       },
       "configurations": {
         "development": {

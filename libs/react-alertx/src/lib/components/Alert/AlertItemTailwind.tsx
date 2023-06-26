@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import classNames from 'classnames';
+import { join } from 'path';
 
 export type AlertStatus = 'info' | 'success' | 'warning' | 'error';
 

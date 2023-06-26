@@ -1,5 +1,6 @@
 import './lib/styles/global.css';
 import './lib/styles/root.css';
+import '../tailwind.css';
 
 export { AlertItem as Alert } from './lib/components/Alert/AlertItem';
 export type { AlertItemProps as AlertProps } from './lib/components/Alert/AlertItem';
