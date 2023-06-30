@@ -6,7 +6,7 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "outputs": [
         "{options.outputFile}"
       ],
@@ -23,19 +23,12 @@
       }
     },
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx nx build-vite react-alertx && npx nx compile-tailwind react-alertx"
-      }
-    },
-    "build-vite": {
-      "executor": "@nx/vite:build",
+      "executor": "@nrwl/vite:build",
       "outputs": [
         "{options.outputPath}"
       ],
       "defaultConfiguration": "production",
       "options": {
-        "postcssConfig": "/libs/react-alertx/postcss.config.js",
         "outputPath": "dist/libs/react-alertx"
       },
       "configurations": {

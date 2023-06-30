@@ -56,6 +56,17 @@
         "style": "styled-jsx",
         "linter": "eslint"
       }
+    },
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-jsx",
+        "linter": "eslint"
+      }
     }
   }
 }

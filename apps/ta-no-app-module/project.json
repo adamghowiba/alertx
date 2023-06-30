@@ -1,0 +1,55 @@
+{
+  "name": "ta-no-app-module",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ta-no-app-module",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/ta-no-app-module",
+        "outputPath": "dist/apps/ta-no-app-module"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/ta-no-app-module"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "ta-no-app-module:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ta-no-app-module:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "ta-no-app-module:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "ta-no-app-module:build:production"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ta-no-app-module/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}

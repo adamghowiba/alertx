@@ -57,8 +57,8 @@ export const AlertItem: FC<AlertItemProps> = ({
           color: red;
         }
 
-        .red {
-          color: red;
+        .green {
+          color: green;
         }
 
         .alert {
@@ -75,9 +75,6 @@ export const AlertItem: FC<AlertItemProps> = ({
           display: flex;
           align-items: center;
           gap: 1rem;
-        }
-
-        body {
         }
 
         .alert__icon {

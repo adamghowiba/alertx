@@ -90,7 +90,6 @@ export const AlertItem: FC<AlertItemProps> = ({
   return (
     <>
       <AlertDiv statusColors={statusColors} status={status}>
-        {/* <div className={classNames('ax', 'alert', `alert--${status}`)}> */}
         <AlertDetailsDiv className="ax">
           <AlertIcon statusColors={statusColors} status={status}></AlertIcon>
 
@@ -101,62 +100,7 @@ export const AlertItem: FC<AlertItemProps> = ({
         </AlertDetailsDiv>
 
         <AlertActionDiv>{actions}</AlertActionDiv>
-        {/* </div> */}
       </AlertDiv>
-
-      <style jsx>{`
-        .alert {
-          display: flex;
-          justify-content: space-between;
-          padding: 14px;
-          box-shadow: 0px 8px 18px -6px rgba(24, 44, 75, 0.12),
-            0px 12px 42px -4px rgba(24, 44, 75, 0.12);
-          border-radius: 8px;
-          border-left: 2px solid ${statusColors[status]};
-        }
-
-        .alert__details {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .alert__icon {
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background-color: ${colors[status]};
-        }
-
-        .alert__title {
-          font-weight: 600;
-          font-size: var(--ax-text-p3);
-          color: var(--ax-color-content-secondary);
-        }
-
-        .alert__message {
-          display: flex;
-          flex-direction: column;
-          font-size: var(--ax-text-p3);
-          color: var(--ax-color-content-tertiary);
-        }
-
-        .alert--info {
-          border-left: 2px solid ${statusColors.info};
-        }
-
-        .alert--warning {
-          border-left: 2px solid ${statusColors.warning};
-        }
-
-        .alert--success {
-          border-left: 2px solid ${statusColors.success};
-        }
-
-        .alert--error {
-          border-left: 2px solid ${statusColors.error};
-        }
-      `}</style>
     </>
   );
 };
