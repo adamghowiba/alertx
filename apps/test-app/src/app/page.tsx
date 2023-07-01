@@ -1,4 +1,5 @@
 import { AlertJsx, AlertTailwind, useAlerts } from '@alertx/react-alertx';
+import { RollupTest } from '@alertx/rollup-test';
 import { AlertItem } from 'libs/react-alertx/src/lib/components/Alert/AlertItem';
 import { nanoid } from 'nanoid';
 import { useEffect } from 'react';
@@ -40,11 +41,14 @@ const Page = () => {
           message="this is an alert message"
           status="warning"
         />
+
+        <RollupTest />
       </div>
 
       <div className="main">
         <h1>Should bne red h1</h1>
         <h2 className="red">Should bne red class</h2>
+        <h2 className="green">Should bne red class</h2>
       </div>
 
       <style jsx>

@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@alertx/core": ["libs/core/src/index.ts"],
-      "@alertx/react-alertx": ["libs/react-alertx/src/index.ts"]
+      "@alertx/react-alertx": ["libs/react-alertx/src/index.ts"],
+      "@alertx/rollup-test": ["libs/rollup-test/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
