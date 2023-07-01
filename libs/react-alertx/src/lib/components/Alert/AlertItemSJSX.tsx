@@ -39,7 +39,7 @@ export const AlertItem: FC<AlertItemProps> = ({
 
   return (
     <>
-      <div className={classNames('ax', 'alert', `alert--${status}`)}>
+      <div className={`ax alert alert--${status}`}>
         <div className="alert__details">
           <div className="alert__icon"></div>
 

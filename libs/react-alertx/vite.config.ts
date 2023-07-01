@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
+import babel from 'vite-plugin-babel';
 import dts from 'vite-plugin-dts';
 import { joinPathFragments } from '@nrwl/devkit';
 
@@ -17,6 +18,12 @@ export default defineConfig({
     react(),
     viteTsConfigPaths({
       root: '../../',
+    }),
+    babel({
+      babelConfig: {
+        configFile: './libs/react-alertx/.babelrc', // path to your .babelrc
+        exclude: 'node_modules/**',
+      },
     }),
   ],
 

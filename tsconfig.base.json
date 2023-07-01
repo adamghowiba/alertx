@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@alertx/core": ["libs/core/src/index.ts"],
-      "@alertx/react-alertx": ["libs/react-alertx/src/index.ts"]
+      "@alertx/react-alertx": ["libs/react-alertx/src/index.ts"],
+      "react-alertx-v2": ["libs/react-alertx-v2/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

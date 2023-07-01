@@ -1,8 +1,7 @@
 import { Alert, AlertStore } from '@alertx/core';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { AlertContext } from '../../contexts/AlertContext';
-import { AlertItem } from '../Alert/AlertItem';
-import { nanoid } from 'nanoid';
+import { AlertItem } from '../Alert/AlertItemSJSX';
 
 export interface AlertProviderProps extends PropsWithChildren {
   store: AlertStore;
