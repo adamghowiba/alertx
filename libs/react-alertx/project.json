@@ -55,7 +55,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "cd libs/react-alertx",
+          "cd ./libs/react-alertx",
           "npm version patch"
         ],
         "parallel": false
