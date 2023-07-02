@@ -1,6 +1,6 @@
 import { AlertStatus } from '@alertx/core';
 import { useAlerts } from '@alertx/react-alertx';
-import { AlertItem } from 'libs/react-alertx/src/lib/components/Alert/AlertItem';
+import { Alert } from '@alertx/react-alertx';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 
@@ -76,7 +76,7 @@ const Page = () => {
       </button>
 
       <div className="center">
-        <AlertItem
+        <Alert
           title="This is an alert"
           message="this is an alert message"
           status="info"
