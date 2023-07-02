@@ -16,13 +16,26 @@
         ]
       }
     },
+    "compile-tailwind": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tailwindcss@latest -c ./libs/react-alertx/tailwind.config.js -o ./libs/react-alertx/src/lib/styles/alertx-tailwind.scss"
+      }
+    },
     "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build-vite react-alertx && npx nx compile-tailwind react-alertx"
+      }
+    },
+    "build-vite": {
       "executor": "@nx/vite:build",
       "outputs": [
         "{options.outputPath}"
       ],
       "defaultConfiguration": "production",
       "options": {
+        "postcssConfig": "/libs/react-alertx/postcss.config.js",
         "outputPath": "dist/libs/react-alertx"
       },
       "configurations": {

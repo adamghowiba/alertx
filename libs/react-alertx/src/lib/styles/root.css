@@ -1,0 +1,138 @@
+:root {
+
+  --ax-color-blue: #3892f3;
+  --ax-color-blue-light: #eff6ff;
+  --ax-color-blue-dark: #2563EB;
+
+  --ax-color-red: #D15049;
+  --ax-color-error: var(--ax-color-red);
+  /* --color-red-500: var(--color-red);
+  --color-red-700: #752D29;
+  --color-red-600: #993B36;
+  --color-red-200: #FEE2E2;
+  --color-red-100: #FEF2F2; */
+
+  --ax-color-green: #3CBA6A;
+  --ax-color-success: var(--ax-color-green);
+  /* --color-green-500: var(--color-green);
+  --color-green-700: #296B41;
+  --color-green-600: #2C874D;
+  --color-green-200: #E6FCEE;
+  --color-green-100: #F5FFF9; */
+
+  --ax-color-yellow: #EAB308;
+  --ax-color-warning: var(--ax-color-yellow);
+  /* --color-yellow-500: var(--color-yellow);
+  --color-yellow-700: #854D0E;
+  --color-yellow-600: #CA8A04;
+  --color-yellow-200: #FEF9C3;
+  --color-yellow-100: #FEFCE8; */
+
+  --ax-color-surface: #ffffff;
+  --ax-color-surface-subdued: #FAFAFB;
+  --ax-color-background: #fcfcfd;
+  --ax-color-background-neutral: #FCFCFD;
+  --ax-color-background-subdued: #F6F6F7;
+  --ax-color-backdrop: rgb(31, 41, 55, 0.25);
+
+  --ax-color-content-primary: #111827;
+  --ax-color-content-secondary: #374151;
+  --ax-color-content-tertiary: #6B7280;
+  --ax-color-border-neutral: #E5E7EB;
+  --ax-color-border-overlay: #F3F4F6;
+  --ax-color-content-link: #3B82F6;
+
+  /* MAIN COLORS */
+  --ax-color-primary: var(--ax-color-blue);
+
+  /* NEUTRALS (NEW) */
+  --ax-neutral-50: #f9fafb;
+  --ax-neutral-100: #f3f4f6;
+  --ax-neutral-200: #e5e7eb;
+  --ax-neutral-300: #d1d5db;
+  --ax-neutral-400: #9ca3af;
+  --ax-neutral-500: #6b7280;
+  --ax-neutral-600: #4b5563;
+  --ax-neutral-700: #374151;
+  --ax-neutral-800: #1f2937;
+  --ax-neutral-900: #111827;
+  --ax-neutral-border: #e5e7eb;
+
+  --ax-radius-sm: 4px;
+  --ax-radius-md: 6px;
+  --ax-radius-lg: 8px;
+
+  /* TYPOGRAPHY */
+  --ax-text-h1: 2.25rem;
+  --ax-text-h2: 1.875rem;
+  --ax-text-h3: 1.5rem;
+  --ax-text-h4: 1.25rem;
+  --ax-text-h5: 1.125rem;
+  --ax-text-h6: 1rem;
+
+  --ax-text-label-1: 12px;
+  --ax-text-label-2: 10px;
+
+  --ax-text-p1: 18px;
+  --ax-text-p2: 16px;
+  --ax-text-p3: 14px;
+  --ax-text-p4: 12px;
+
+  --ax-text-body: var(--ax-text-p3);
+  --ax-text-button: var(--ax-text-p3);
+
+  --ax-text-color-tertiary: #6b7280;
+  --ax-text-color-secondary: #374151;
+  --ax-text-color-primary: #111827;
+
+  /* WEIGHT */
+  --ax-weight-bold: 700;
+  --ax-weight-semibold: 600;
+  --ax-weight-medium: 500;
+  --ax-weight-regular: 400;
+
+  /* SPACING */
+  --ax-space-3xs: 2px;
+  --ax-space-2xs: 4px;
+  --ax-space-xs: 8px;
+  --ax-space-sm: 12px;
+  --ax-space-md: 16px;
+  --ax-space-lg: 20px;
+  --ax-space-xl: 24px;
+  --ax-space-2xl: 28px;
+  --ax-space-3xl: 32px;
+  --ax-space-4xl: 36px;
+  --ax-space-5xl: 40px;
+  --ax-space-6xl: 44px;
+  --ax-space-7xl: 48px;
+  --ax-space-8xl: 52px;
+  --ax-space-9xl: 56px;
+  --ax-space-10xl: 60px;
+  --ax-space-11xl: 64px;
+  --ax-space-12xl: 68px;
+  --ax-space-13xl: 72px;
+  --ax-space-14xl: 76px;
+  --ax-space-15xl: 80px;
+  --ax-space-16xl: 84px;
+  --ax-space-17xl: 88px;
+  --ax-space-18xl: 92px;
+
+  /* SHADOWS */
+  --ax-shadow-xs: 0px 2px 4px -2px rgba(24, 44, 75, 0.12), 0px 4px 4px -2px rgba(24, 44, 75, 0.08);
+  --ax-shadow-sm: 0px 6px 8px -6px rgba(24, 44, 75, 0.12), 0px 8px 16px -6px rgba(24, 44, 75, 0.08);
+  --ax-shadow-md: 0px 6px 12px -6px rgba(24, 44, 75, 0.12), 0px 8px 24px -4px rgba(24, 44, 75, 0.08);
+  --ax-shadow-lg: 0px 8px 18px -6px rgba(24, 44, 75, 0.12), 0px 12px 42px -4px rgba(24, 44, 75, 0.12);
+  --ax-shadow-xl: 0px 8px 28px -6px rgba(24, 44, 75, 0.12), 0px 18px 88px -4px rgba(24, 44, 75, 0.14);
+
+  /* MOTION */
+  --ax-motion-productive-short: 70ms;
+  --ax-motion-productive-medium: 100ms;
+  --ax-motion-productive-long: 150ms;
+  --ax-motion-expressive-short: 250ms;
+  --ax-motion-expressive-long: 400ms;
+  --ax-motion-timing-enter: cubic-bezier(0, 0, 0.35, 1);
+  --ax-motion-timing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ax-motion-timing-transition: cubic-bezier(0.4, 0, 0.2, 1);
+  --ax-motion-timing-emphasize: cubic-bezier(0, 0, 0.2, 1.4);
+  --ax-expand-animation-timing: var(--motion-timing-enter);
+}
