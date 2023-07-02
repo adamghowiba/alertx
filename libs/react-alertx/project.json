@@ -6,7 +6,7 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "outputs": [
         "{options.outputFile}"
       ],
@@ -17,7 +17,7 @@
       }
     },
     "build": {
-      "executor": "@nx/vite:build",
+      "executor": "@nrwl/vite:build",
       "outputs": [
         "{options.outputPath}"
       ],
@@ -35,28 +35,13 @@
         }
       }
     },
-    "publish:major": {
-      "executor": "nx:run-script",
-      "options": {
-        "script": "npm version major && npm publish --access=public",
-        "cwd": "/dist/libs/react-alertx",
-        "parallel": false
-      }
-    },
-    "publish:minor": {
-      "executor": "nx:run-script",
-      "options": {
-        "script": "npm version minor && npm publish --access=public",
-        "cwd": "/dist/libs/react-alertx",
-        "parallel": false
-      }
-    },
     "publish:patch": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "cd ./libs/react-alertx",
-          "npm version patch"
+          "cd ./libs/react-alertx && npm version patch",
+          "nx build react-alertx",
+          "cd ./dist/libs/react-alertx && npm publish --access=public"
         ],
         "parallel": false
       }
