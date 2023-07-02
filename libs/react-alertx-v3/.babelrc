@@ -1,0 +1,14 @@
+{
+  "presets": [
+    "@babel/preset-env", "@babel/preset-react",
+    [
+      "@nrwl/react/babel",
+      {
+        "runtime": "automatic",
+        "useBuiltIns": "usage"
+      }
+    ]
+  ],
+  "plugins": ["styled-jsx/babel"]
+}
+

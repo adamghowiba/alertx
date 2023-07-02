@@ -21,12 +21,13 @@ export default defineConfig({
     }),
     babel({
       babelConfig: {
+        babelrc: true,
+        root: '../../',
         configFile: './libs/react-alertx/.babelrc', // path to your .babelrc
         exclude: 'node_modules/**',
       },
     }),
   ],
-
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [

@@ -1,6 +1,9 @@
 // import { AlertJsx as LocalAlertJsx } from '@alertx/react-alertx';
-import { AlertJsx  as PackageAlertX} from 'alertx';
+// import { AlertJsx  as PackageAlertX} from 'alertx';
 // import { AlertJsx as BuildAlertJsx } from '../../../dist/libs/react-alertx';
+
+// import { ReactAlertxV3 } from 'react-alertx-v3';
+import { ReactAlertxV3 } from '../../../dist/libs/react-alertx-v3/index';
 
 export function Index() {
   /*
@@ -10,9 +13,10 @@ export function Index() {
    */
   return (
     <>
-      {/* <BuildAlertJsx message="Alert with styled jsx" /> */}
       {/* <LocalAlertJsx message="Local JSX alert" /> */}
-      <PackageAlertX message="Local JSX alert" />
+      {/* <BuildAlertJsx message="Alert with styled jsx" /> */}
+      {/* <PackageAlertX message="Local JSX alert" /> */}
+      <ReactAlertxV3 />
 
       <h1>Hello</h1>
       <h1>Should remain black</h1>

@@ -1,5 +1,4 @@
-import React, { FC, ReactNode } from 'react';
-import classNames from 'classnames';
+import { FC, ReactNode } from 'react';
 
 export type AlertStatus = 'info' | 'success' | 'warning' | 'error';
 
