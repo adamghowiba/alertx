@@ -1,7 +1,12 @@
+import { AlertStatus } from '@alertx/core';
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-
-export type AlertStatus = 'info' | 'success' | 'warning' | 'error';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import WarningIcon from '../Icons/WarningIcon/WarningIcon';
+import ErrorIcon from '../Icons/ErrorIcon/ErrorIcon';
+import SuccessIcon from '../Icons/SuccessIcon/SuccessIcon';
+import CloseIcon from '../Icons/CloseIcon/CloseIcon';
+import IconButton from '../IconButton/IconButton';
 
 export interface AlertItemProps {
   title?: string;
@@ -10,14 +15,18 @@ export interface AlertItemProps {
   actions?: ReactNode | ReactNode[];
   status?: AlertStatus;
   colors?: Partial<Record<AlertStatus, ReactNode>>;
+  display?: {
+    closeAction?: boolean;
+  };
   onClose?: () => void;
 }
 
 const ALERT_ICON_DEFAULTS: Required<AlertItemProps['icons']> = {
-  warning: '',
-  error: '',
+  warning: <WarningIcon color="var(--ax-color-warning)" />,
+  error: <ErrorIcon color="var(--ax-color-error)" />,
+  success: <SuccessIcon color="var(--ax-color-success)" />,
   info: '',
-  success: '',
+  loading: '',
 };
 
 const STATUS_COLOR_DEFAULTS: Required<AlertItemProps['colors']> = {
@@ -25,43 +34,34 @@ const STATUS_COLOR_DEFAULTS: Required<AlertItemProps['colors']> = {
   error: 'var(--ax-color-error)',
   info: 'black',
   success: 'var(--ax-color-success)',
+  loading: 'gray',
 };
 
 const AlertDetailsDiv = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
 `;
 
-const AlertDiv = styled.div<{
-  statusColors: Required<AlertItemProps['colors']>;
-  status: AlertStatus;
-}>`
+const AlertDiv = styled.div<AlertItemProps>`
   display: flex;
   justify-content: space-between;
   padding: 14px;
+  gap: 1rem;
   box-shadow: 0px 8px 18px -6px rgba(24, 44, 75, 0.12),
     0px 12px 42px -4px rgba(24, 44, 75, 0.12);
   border-radius: 8px;
   border-left: 3px solid
     ${(props) =>
-      props.statusColors
-        ? props.statusColors[props.status]?.toString()
+      props.status
+        ? (props?.colors || STATUS_COLOR_DEFAULTS)[props.status]?.toString()
         : 'black'};
 `;
 
 const AlertIcon = styled.div<{
   statusColors: Required<AlertItemProps['colors']>;
   status: AlertStatus;
-}>`
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: ${(props) =>
-    props.statusColors
-      ? props.statusColors[props.status]?.toString()
-      : 'black'};
-`;
+}>``;
 
 const AlertMessageDiv = styled.div`
   display: flex;
@@ -70,11 +70,21 @@ const AlertMessageDiv = styled.div`
   color: var(--ax-color-content-tertiary);
 `;
 
-const AlertTitleSpan = styled.span``;
+const AlertTitleSpan = styled.span`
+  font-size: 16px;
+  font-weight: 500;
+`;
 
 const AlertActionDiv = styled.div`
   display: flex;
-  gap: var(--space-sm);
+  align-items: center;
+  gap: var(--ax-space-sm);
+`;
+
+const AlertIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const AlertItem: FC<AlertItemProps> = ({
@@ -89,74 +99,33 @@ export const AlertItem: FC<AlertItemProps> = ({
 
   return (
     <>
-      <AlertDiv statusColors={statusColors} status={status}>
-        {/* <div className={classNames('ax', 'alert', `alert--${status}`)}> */}
-        <AlertDetailsDiv className="ax">
-          <AlertIcon statusColors={statusColors} status={status}></AlertIcon>
+      <AlertDiv message={message} status={status} colors={colors}>
+        <AlertDetailsDiv>
+          <AlertIconWrapper>
+            {status === 'loading' ? (
+              <LoadingSpinner />
+            ) : (
+              <AlertIcon statusColors={statusColors} status={status}>
+                {ALERT_ICON_DEFAULTS[status]}
+              </AlertIcon>
+            )}
+          </AlertIconWrapper>
 
           <AlertMessageDiv>
             <AlertTitleSpan>{title}</AlertTitleSpan>
-            <span>{message}</span>
+            <span className="alert-span">{message}</span>
           </AlertMessageDiv>
         </AlertDetailsDiv>
 
-        <AlertActionDiv>{actions}</AlertActionDiv>
-        {/* </div> */}
+        <AlertActionDiv>
+          {actions}
+          {props?.display?.closeAction && (
+            <IconButton onClick={props?.onClose}>
+              <CloseIcon width={16} height={16} />
+            </IconButton>
+          )}
+        </AlertActionDiv>
       </AlertDiv>
-
-      <style jsx>{`
-        .alert {
-          display: flex;
-          justify-content: space-between;
-          padding: 14px;
-          box-shadow: 0px 8px 18px -6px rgba(24, 44, 75, 0.12),
-            0px 12px 42px -4px rgba(24, 44, 75, 0.12);
-          border-radius: 8px;
-          border-left: 2px solid ${statusColors[status]};
-        }
-
-        .alert__details {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .alert__icon {
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background-color: ${colors[status]};
-        }
-
-        .alert__title {
-          font-weight: 600;
-          font-size: var(--ax-text-p3);
-          color: var(--ax-color-content-secondary);
-        }
-
-        .alert__message {
-          display: flex;
-          flex-direction: column;
-          font-size: var(--ax-text-p3);
-          color: var(--ax-color-content-tertiary);
-        }
-
-        .alert--info {
-          border-left: 2px solid ${statusColors.info};
-        }
-
-        .alert--warning {
-          border-left: 2px solid ${statusColors.warning};
-        }
-
-        .alert--success {
-          border-left: 2px solid ${statusColors.success};
-        }
-
-        .alert--error {
-          border-left: 2px solid ${statusColors.error};
-        }
-      `}</style>
     </>
   );
 };
