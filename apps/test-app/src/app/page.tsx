@@ -1,6 +1,6 @@
 import { AlertStatus } from '@alertx/core';
 import { useAlerts } from '@alertx/react-alertx';
-import { AlertItem } from 'libs/react-alertx/src/lib/components/Alert/AlertItem';
+import { Alert } from '@alertx/react-alertx';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 
@@ -50,17 +50,19 @@ const Page = () => {
   return (
     <div>
       <div className="radios">
-        {(['success', 'error', 'warning', 'info'] as AlertStatus[]).map((status) => (
-          <div className="radio-item" key={status}>
-            <input
-              name="status"
-              type="radio"
-              value={status}
-              onChange={() => setSelectedStatus(status)}
-            />
-            <label>{status}</label>
-          </div>
-        ))}
+        {(['success', 'error', 'warning', 'info'] as AlertStatus[]).map(
+          (status) => (
+            <div className="radio-item" key={status}>
+              <input
+                name="status"
+                type="radio"
+                value={status}
+                onChange={() => setSelectedStatus(status)}
+              />
+              <label>{status}</label>
+            </div>
+          )
+        )}
       </div>
 
       <button className="large-button" onClick={handleAddAlert}>
@@ -74,7 +76,7 @@ const Page = () => {
       </button>
 
       <div className="center">
-        <AlertItem
+        <Alert
           title="This is an alert"
           message="this is an alert message"
           status="info"

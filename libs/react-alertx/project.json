@@ -6,7 +6,7 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nrwl/linter:eslint",
       "outputs": [
         "{options.outputFile}"
       ],
@@ -16,20 +16,8 @@
         ]
       }
     },
-    "compile-tailwind": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx tailwindcss@latest -c ./libs/react-alertx/tailwind.config.js -o ./libs/react-alertx/src/lib/styles/alertx-tailwind.scss"
-      }
-    },
     "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx nx build-vite react-alertx && npx nx compile-tailwind react-alertx"
-      }
-    },
-    "build-vite": {
-      "executor": "@nx/vite:build",
+      "executor": "@nrwl/vite:build",
       "outputs": [
         "{options.outputPath}"
       ],
@@ -47,27 +35,14 @@
         }
       }
     },
-    "publish:major": {
-      "executor": "nx:run-script",
-      "options": {
-        "script": "npm version major && npm publish --access=public",
-        "cwd": "/dist/libs/react-alertx",
-        "parallel": false
-      }
-    },
-    "publish:minor": {
-      "executor": "nx:run-script",
-      "options": {
-        "script": "npm version minor && npm publish --access=public",
-        "cwd": "/dist/libs/react-alertx",
-        "parallel": false
-      }
-    },
     "publish:patch": {
-      "executor": "nx:run-script",
+      "executor": "nx:run-commands",
       "options": {
-        "script": "npm version patch && npm publish --access=public",
-        "cwd": "/dist/libs/react-alertx",
+        "commands": [
+          "cd ./libs/react-alertx && npm version patch",
+          "nx build react-alertx",
+          "cd ./dist/libs/react-alertx && npm publish --access=public"
+        ],
         "parallel": false
       }
     }
