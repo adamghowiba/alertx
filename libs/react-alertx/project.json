@@ -39,9 +39,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "cd ./libs/react-alertx && npm version patch",
           "nx build react-alertx",
-          "cd ./dist/libs/react-alertx && npm publish --access=public"
+          "cd ./libs/react-alertx && npm version patch",
+          "cd ./dist/libs/react-alertx && npm version patch && npm publish --access=public"
         ],
         "parallel": false
       }
