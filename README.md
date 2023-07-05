@@ -21,9 +21,19 @@ npm install alertx
 
 Here is a basic example of how to use AlertX:
 
+```tsx
 import { Alert } from 'alertx';
 
+const Index = () => {
+  const {addAlert} = useAlerts();
+
+  return (
+    <button onClick={() => addAlert({message: "Hello world"})}> Alert me </button>
+  )
+}
+
 // Now you can use Alert in your component
+```
 
 ## Documentation
 
