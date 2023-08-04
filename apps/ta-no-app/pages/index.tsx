@@ -1,7 +1,7 @@
 // import { Button2 } from '../../../libs/standalone-react/dist/esm';
 // import { ReactRollup } from '../../../libs/react-rollup/dist/esm';
 // import { AlertJsx } from '../../../dist/libs/react-alertx';
-import { AlertJsx } from '@alertx/react-alertx';
+import { AlertJsx, AlertV2 } from '@alertx/react-alertx';
 
 export function Index() {
   /*
@@ -11,12 +11,8 @@ export function Index() {
    */
   return (
     <div>
-      <AlertJsx message="helo" />
-
-      <div className="red">Shouldnt be touched</div>
-      {/* <Bd`utton2>Hello</Bdutton2> */}
-
-      {/* <ReactRollup /> */}
+      {/* <AlertJsx message="helo" /> */}
+      <AlertV2 message="helo" />
 
       <style jsx>{`
         .page {

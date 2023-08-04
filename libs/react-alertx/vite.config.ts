@@ -11,6 +11,18 @@ export default defineConfig({
   plugins: [
     react({
       babel: {
+        presets: [
+          '@babel/preset-env',
+          '@babel/preset-react',
+          [
+            'next/babel',
+            {
+              'styled-jsx': {
+                plugins: ['@styled-jsx/plugin-sass'],
+              },
+            },
+          ],
+        ],
         plugins: ['styled-jsx/babel'],
       },
     }),

@@ -5,6 +5,7 @@ export { AlertItem as Alert } from './lib/components/Alert/AlertItem';
 export type { AlertItemProps as AlertProps } from './lib/components/Alert/AlertItem';
 
 export { AlertItem as AlertJsx } from './lib/components/Alert/AlertItemSJSX';
+export { AlertItem as AlertV2 } from './lib/components/Alert/AlertItemV2';
 
 export { AlertProvider } from './lib/components/AlertProvider/AlertProvider';
 export type { AlertProviderProps } from './lib/components/AlertProvider/AlertProvider';
