@@ -61,7 +61,7 @@ const AlertItemRender: FC<{
     <AlertItem
       key={alert.id}
       status={alert.status}
-      message={`${alert.message} - ${alert.id}`}
+      message={alert.message}
       title={alert?.title}
       display={{ closeAction: true }}
       onClose={onClose}
@@ -101,11 +101,11 @@ export const AlertProvider: FC<AlertProviderProps> = ({
       <AlertContext.Provider
         value={{
           alerts: alerts,
-          addAlert: (alert) => {
-            return store.alert(alert);
+          alert: (message, alert) => {
+            return store.alert({ message, ...alert });
           },
-          alertPromise: (alert) => {
-            return store.alertPromise(alert);
+          alertPromise: (message, alert) => {
+            return store.alertPromise({ message, ...alert });
           },
           clear: () => {
             return store.clear();
@@ -124,7 +124,11 @@ export const AlertProvider: FC<AlertProviderProps> = ({
             return (
               <AlertWrapper key={alert.id}>
                 {/* TODO: Make known that alert id is always there */}
-                <AlertItemRender onClose={() => store.remove(alert.id)} alert={alert} components={Components} />
+                <AlertItemRender
+                  onClose={() => store.remove(alert.id)}
+                  alert={alert}
+                  components={Components}
+                />
               </AlertWrapper>
             );
           })}

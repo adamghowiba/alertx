@@ -2,17 +2,29 @@ import {
   AddAlertResponse,
   Alert,
   AlertPromise,
-  BaseAlertResponse,
+  AlertWithoutId,
   RemoveAlertResponse,
-  UpdateAlertResponse,
+  UpdateAlertResponse
 } from '@alertx/core';
-import { createContext, ReactElement } from 'react';
+import { ReactElement, ReactNode, createContext } from 'react';
+
+type AlertPramsWithoutMessage<T> = Omit<AlertWithoutId<T>, 'message'>;
+type AlertPromisePramsWithoutMessage = Omit<AlertPromise, 'message'>;
 
 interface AlertContextState {
   alerts: Alert[];
-  addAlert: (alert: Alert<ReactElement | ReactElement[]>) => AddAlertResponse;
-  alertPromise: (alert: AlertPromise) => Promise<AddAlertResponse>;
-  updateAlert: (id: string, alert: Alert) => UpdateAlertResponse | undefined;
+  alert: (
+    message: ReactNode,
+    alert: AlertPramsWithoutMessage<ReactElement | ReactElement[]>
+  ) => AddAlertResponse;
+  alertPromise: (
+    message: ReactNode,
+    alert: AlertPromisePramsWithoutMessage
+  ) => Promise<AddAlertResponse>;
+  updateAlert: (
+    id: string,
+    alert: Partial<Alert>
+  ) => UpdateAlertResponse | undefined;
   removeAlert: (id: string) => RemoveAlertResponse | undefined;
   /* TODO: Return alerts cleared */
   clear: () => void;
@@ -25,7 +37,7 @@ export const AlertContext = createContext<AlertContextState>({
   alerts: [],
   clear: emptyFunction,
   alertPromise: emptyFunction,
-  addAlert: emptyFunction,
+  alert: emptyFunction,
   removeAlert: emptyFunction,
   updateAlert: emptyFunction,
 });
