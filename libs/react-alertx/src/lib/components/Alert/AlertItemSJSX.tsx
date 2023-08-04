@@ -53,14 +53,6 @@ export const AlertItem: FC<AlertItemProps> = ({
       </div>
 
       <style jsx>{`
-        h1 {
-          color: red;
-        }
-
-        .red {
-          color: red;
-        }
-
         .alert {
           display: flex;
           justify-content: space-between;
@@ -75,9 +67,6 @@ export const AlertItem: FC<AlertItemProps> = ({
           display: flex;
           align-items: center;
           gap: 1rem;
-        }
-
-        body {
         }
 
         .alert__icon {

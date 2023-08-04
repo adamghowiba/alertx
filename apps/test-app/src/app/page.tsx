@@ -1,8 +1,9 @@
 import { AlertStatus } from '@alertx/core';
-import { useAlerts } from '@alertx/react-alertx';
+import { AlertJsx, useAlerts } from '@alertx/react-alertx';
 import { Alert } from '@alertx/react-alertx';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
+import TestComp from '../componenets/TestComp';
 
 const Page = () => {
   const { addAlert, removeAlert, alertPromise, alerts, clear } = useAlerts();
@@ -75,13 +76,25 @@ const Page = () => {
         Clear alerts
       </button>
 
+      <TestComp />
+
+      <div className="local-green">Should still be back</div>
+
       <div className="center">
         <Alert
           title="This is an alert"
           message="this is an alert message"
           status="info"
         />
+        <AlertJsx
+          title="This is an alert"
+          message="this is an alert message"
+          status="info"
+        />
+        TT
       </div>
+
+      <div className="red">Should be back</div>
 
       <style jsx>
         {`
