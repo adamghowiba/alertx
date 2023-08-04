@@ -1,17 +1,21 @@
 import { AlertStatus, AlertStore } from '@alertx/core';
 import { Alert, AlertProvider } from '@alertx/react-alertx';
 import Page from './page';
-import {
-  AlertItem,
-  AlertItemProps,
-} from 'libs/react-alertx/src/lib/components/Alert/AlertItem';
 import { FC } from 'react';
+import { AlertProps } from '@alertx/react-alertx';
+import StyledJsxRegistry from './registry';
 
 const store = new AlertStore({ maxAlerts: 10 });
 
-const CustomAlertItem: FC<AlertItemProps> = ({ ...props }) => {
-  console.log(props.status);
+export function App() {
+  return (
+    <AlertProvider store={store}>
+      <Page />
+    </AlertProvider>
+  );
+}
 
+const CustomAlertItem: FC<AlertProps> = ({ ...props }) => {
   const BG_COLORS: { [Key in AlertStatus]: string } = {
     error: 'red',
     info: 'blue',
@@ -24,7 +28,10 @@ const CustomAlertItem: FC<AlertItemProps> = ({ ...props }) => {
     <>
       <div
         className="alert"
-        style={{ backgroundColor: BG_COLORS?.[props.status] || 'black' }}
+        style={{
+          backgroundColor:
+            (props.status && BG_COLORS?.[props?.status]) || 'black',
+        }}
       >
         <span>{props.message}</span>
       </div>
@@ -40,15 +47,5 @@ const CustomAlertItem: FC<AlertItemProps> = ({ ...props }) => {
     </>
   );
 };
-
-export function App() {
-  return (
-    <AlertProvider
-      store={store}
-    >
-      <Page />
-    </AlertProvider>
-  );
-}
 
 export default App;
