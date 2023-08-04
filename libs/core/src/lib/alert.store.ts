@@ -6,15 +6,10 @@ import { nanoid } from 'nanoid';
 
 export type AlertStatus = 'success' | 'warning' | 'error' | 'info' | 'loading';
 
-export interface AlertActions {
-  name: string;
-  onClick: (alert: Alert) => void;
-}
-
-export interface Alert<Actions = any> {
-  id?: string;
-  title?: string;
-  message: string;
+export interface Alert<Message = any, Action = any> {
+  id: string;
+  title?: Message;
+  message: Message;
   /**
    * Duration to show the alert in milliseconds
    */
@@ -26,7 +21,21 @@ export interface Alert<Actions = any> {
     horizontal: 'top' | 'left' | 'center';
   };
   loading?: boolean;
-  actions?: Actions | ((params: { id: string }) => Actions);
+  actions?: Action | ((params: { id: string }) => Action);
+}
+
+export type AlertWithoutId<Message = any, Action = any> = Omit<
+  Alert<Message, Action>,
+  'id'
+> & { id?: string };
+
+export interface AlertPromise extends Alert {
+  alertPromise: Promise<any>;
+}
+
+export interface AlertActions {
+  name: string;
+  onClick: (alert: Alert) => void;
 }
 
 export interface BaseAlertResponse {
@@ -38,12 +47,11 @@ export interface AddAlertResponse extends BaseAlertResponse {
   queueSize: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface UpdateAlertResponse extends BaseAlertResponse {}
-export interface RemoveAlertResponse extends BaseAlertResponse {}
 
-export interface AlertPromise extends Alert {
-  alertPromise: Promise<any>;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface RemoveAlertResponse extends BaseAlertResponse {}
 
 export interface AlertStoreConfig {
   maxAlerts?: number;
@@ -64,7 +72,7 @@ export class AlertStore {
     return this.alerts.length >= this.maxAlerts;
   }
 
-  alert(alert: Alert): AddAlertResponse {
+  alert(alert: AlertWithoutId): AddAlertResponse {
     const id = nanoid();
 
     if (this.alerts.length >= this.maxAlerts) {
