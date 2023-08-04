@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@alertx-rollup": ["libs/react-rollup/src/index.ts"],
       "@alertx/core": ["libs/core/src/index.ts"],
       "@alertx/react-alertx": ["libs/react-alertx/src/index.ts"]
     }
