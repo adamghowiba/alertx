@@ -9,6 +9,11 @@ export default defineConfig({
   cacheDir: '../../node_modules/.vite/react-alertx',
 
   plugins: [
+    // react({
+    //   babel: {
+    //     plugins: ['styled-jsx/babel'],
+    //   },
+    // }),
     dts({
       entryRoot: 'src',
       tsConfigFilePath: joinPathFragments(__dirname, 'tsconfig.lib.json'),

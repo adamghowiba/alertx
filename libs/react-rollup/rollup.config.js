@@ -1,10 +1,13 @@
 import resolvePlugin from "@rollup/plugin-node-resolve"
-import {babel as babelPlugin} from "@rollup/plugin-babel"
+import { babel as babelPlugin } from "@rollup/plugin-babel"
 import typescriptPlugin from "@rollup/plugin-typescript"
-import {defineConfig} from "rollup"
-import {terser as terserPlugin} from "rollup-plugin-terser"
+import { defineConfig } from "rollup"
+import { terser as terserPlugin } from "rollup-plugin-terser"
+import dtsPlugin from "rollup-plugin-dts"
 
-const output = './dist/libs/react-rollup'
+// const output = './dist/libs/react-rollup'
+const main = "dist/cjs/index.js"
+const module = "dist/esm/index.js"
 
 export default defineConfig([
   // Transpile sources to type definitions
@@ -12,17 +15,18 @@ export default defineConfig([
     input: "src/index.ts",
     output: [
       {
-        file: output,
+        file: module,
         format: "esm",
         sourcemap: true,
       }
     ],
     // external: Object.keys(packageJson.peerDependencies),
+    external: ['react', 'react/jsx-runtime', 'styled-jsx'],
     plugins: [
       resolvePlugin({
         extensions: [".ts", ".tsx"/*, ".js", ".jsx"*/]
       }),
-      typescriptPlugin({tsconfig: "./tsconfig.json"}),
+      typescriptPlugin({ tsconfig: "./tsconfig.lib.json" }),
     ],
   },
 
@@ -31,13 +35,13 @@ export default defineConfig([
     input: "src/index.ts",
     output: [
       {
-        file: output,
+        file: main,
         format: "cjs",
         plugins: [terserPlugin()],
         sourcemap: true,
       },
       {
-        file: output,
+        file: module,
         format: "esm",
         plugins: [terserPlugin()],
         sourcemap: true,
@@ -50,15 +54,23 @@ export default defineConfig([
       }),
       babelPlugin({
         babelHelpers: "bundled",
-        extensions: [".ts", ".tsx"/*, ".js", ".jsx"*/]
+        extensions: [".ts", ".tsx"/*, ".js", ".jsx"*/],
+        presets: [
+          [
+            '@babel/preset-react',
+            {
+              runtime: 'automatic',
+            },
+          ],
+        ],
       }),
     ],
   },
 
   // Concat type definitions into a single file
   // {
-  //   input: "dist/esm/types/src/index.d.ts",
-  //   output: {file: "dist/index.d.ts", format: "esm"},
+  //   input: "./dist/esm/types/src/index.d.ts",
+  //   output: { file: "dist/index.d.ts", format: "esm" },
   //   plugins: [
   //     dtsPlugin()
   //   ],
