@@ -54,7 +54,25 @@ export interface UpdateAlertResponse extends BaseAlertResponse {}
 export interface RemoveAlertResponse extends BaseAlertResponse {}
 
 export interface AlertStoreConfig {
+  /**
+   * Maximum number of alerts allowed on the screen.
+   * Any alerts that exceed this amount will go into
+   * the alert queue.
+   *
+   * @default 2
+   */
   maxAlerts?: number;
+
+  /**
+   * Duration in seconds before an alert is removed
+   *
+   * @example
+   * const showDuration = 0 //=> Never removes alert
+   *
+   * @example
+   * const showDuration = 100 //=> Removes alert after 100 seconds
+   */
+  showDuration?: number;
 }
 
 export class AlertStore {
@@ -62,10 +80,12 @@ export class AlertStore {
   private queue: Alert[] = [];
   private readonly subject = new Subject<Alert[]>();
 
-  private readonly maxAlerts: number;
+  private readonly maxAlerts!: number;
+  private readonly showDuration!: number;
 
-  constructor(private readonly config: AlertStoreConfig) {
-    this.maxAlerts = config.maxAlerts || 2;
+  constructor(private readonly config?: AlertStoreConfig) {
+    this.maxAlerts = config?.maxAlerts || 2;
+    this.showDuration = config?.showDuration || 5;
   }
 
   isQueueFull() {
@@ -93,27 +113,16 @@ export class AlertStore {
   }
 
   async alertPromise(alert: AlertPromise): Promise<AddAlertResponse> {
-    const id = nanoid();
-
-    if (this.alerts.length >= this.maxAlerts) {
-      this.queue = [...this.queue, { ...alert, id }];
-      return { id, placedInQueue: true, queueSize: this.queue.length };
-    }
-
-    this.alerts = [...this.alerts, { ...alert, status: 'loading', id }];
-    this.subject.next(this.alerts);
+    const { id, placedInQueue, queueSize } = this.alert({
+      ...alert,
+      status: 'loading',
+    });
 
     try {
       await alert.alertPromise;
       this.update(id, { status: 'success' });
     } catch (error) {
       this.update(id, { status: 'error' });
-    }
-
-    if (!alert.persist) {
-      timer(alert.showDuration || 3000).subscribe(() => {
-        this.remove(id);
-      });
     }
 
     return { id, placedInQueue: false, queueSize: this.queue.length };

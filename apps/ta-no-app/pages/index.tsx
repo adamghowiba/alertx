@@ -4,17 +4,11 @@ import styled from '@emotion/styled';
 const CustomAlert = styled(Alert)({});
 
 export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.styled-jsx file.
-   */
-
   const { alert } = useAlerts();
 
   const addAlert = (type: 'success' | 'warning' | 'error' | 'loading') => {
     if (type === 'success') {
-      alert(<div style={{color: 'red'}}>Hello</div>, { status: 'success' });
+      alert(<div style={{ color: 'red' }}>Hello</div>, { status: 'success' });
     }
 
     if (type === 'warning') {
