@@ -8,7 +8,7 @@ import {
   ReactElement,
 } from 'react';
 import { AlertContext } from '../../contexts/AlertContext';
-import { AlertItem, AlertItemProps } from '../Alert/AlertItem';
+import { AlertItem } from '../AlertItem/AlertItem';
 import styled, { keyframes } from 'styled-components';
 
 const AlertContainer = styled.div`

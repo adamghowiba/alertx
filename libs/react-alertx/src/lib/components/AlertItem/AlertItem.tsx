@@ -8,7 +8,7 @@ import CloseIcon from '../Icons/CloseIcon/CloseIcon';
 import IconButton from '../IconButton/IconButton';
 import styled from '@emotion/styled';
 
-const ALERT_ICON_DEFAULTS: Required<AlertItemProps['icons']> = {
+const ALERT_ICON_DEFAULTS: Required<AlertProps['icons']> = {
   warning: <WarningIcon color="var(--ax-color-warning)" />,
   error: <ErrorIcon color="var(--ax-color-error)" />,
   success: <SuccessIcon color="var(--ax-color-success)" />,
@@ -16,7 +16,7 @@ const ALERT_ICON_DEFAULTS: Required<AlertItemProps['icons']> = {
   loading: '',
 };
 
-const STATUS_COLOR_DEFAULTS: Required<AlertItemProps['colors']> = {
+const STATUS_COLOR_DEFAULTS: Required<AlertProps['colors']> = {
   warning: 'var(--ax-color-warning)',
   error: 'var(--ax-color-error)',
   info: 'black',
@@ -24,7 +24,7 @@ const STATUS_COLOR_DEFAULTS: Required<AlertItemProps['colors']> = {
   loading: 'gray',
 };
 
-export interface AlertItemProps {
+export interface AlertProps {
   title?: string;
   message: string;
   icons?: Partial<Record<AlertStatus, ReactNode>>;
@@ -38,7 +38,7 @@ export interface AlertItemProps {
   onClose?: () => void;
 }
 
-export const AlertItem: FC<AlertItemProps> = ({
+export const AlertItem: FC<AlertProps> = ({
   message,
   title,
   actions,
@@ -50,7 +50,7 @@ export const AlertItem: FC<AlertItemProps> = ({
   const statusColors = { ...STATUS_COLOR_DEFAULTS, ...colors };
 
   return (
-    <Alert
+    <AlertRoot
       className={className}
       message={message}
       status={status}
@@ -81,7 +81,7 @@ export const AlertItem: FC<AlertItemProps> = ({
           </IconButton>
         )}
       </AlertActionDiv>
-    </Alert>
+    </AlertRoot>
   );
 };
 
@@ -91,7 +91,7 @@ const AlertDetailsDiv = styled('div', { label: 'alert__details-div' })`
   gap: 0.6rem;
 `;
 
-const Alert = styled('div', { label: 'alert' })<AlertItemProps>`
+const AlertRoot = styled('div', { label: 'alert' })<AlertProps>`
   display: flex;
   justify-content: space-between;
   padding: 14px;
@@ -107,7 +107,7 @@ const Alert = styled('div', { label: 'alert' })<AlertItemProps>`
 `;
 
 const AlertIcon = styled('div', { label: 'alert-icon' })<{
-  statusColors: Required<AlertItemProps['colors']>;
+  statusColors: Required<AlertProps['colors']>;
   status: AlertStatus;
 }>``;
 

@@ -1,10 +1,7 @@
-// import { Button2 } from '../../../libs/standalone-react/dist/esm';
-// import { ReactRollup } from '../../../libs/react-rollup/dist/esm';
-// import { AlertJsx } from '../../../dist/libs/react-alertx';
-import { AlertEmotion, useAlerts } from '@alertx/react-alertx';
+import { Alert, useAlerts } from '@alertx/react-alertx';
 import styled from '@emotion/styled';
 
-const CustomAlert = styled(AlertEmotion)({});
+const CustomAlert = styled(Alert)({});
 
 export function Index() {
   /*
@@ -17,7 +14,7 @@ export function Index() {
 
   const addAlert = (type: 'success' | 'warning' | 'error' | 'loading') => {
     if (type === 'success') {
-      alert(<div>Hello</div>, { status: 'success' });
+      alert(<div style={{color: 'red'}}>Hello</div>, { status: 'success' });
     }
 
     if (type === 'warning') {
