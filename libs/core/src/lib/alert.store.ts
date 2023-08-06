@@ -1,7 +1,17 @@
-/*
-Used to handle alert related logic
-*/
-import { Subject, timer } from 'rxjs';
+/**
+ * @description framework agnostic alert store
+ * used to manage alerts within an application.
+ */
+import {
+  BehaviorSubject,
+  NEVER,
+  Observable,
+  Subject,
+  map,
+  switchMap,
+  take,
+  timer,
+} from 'rxjs';
 import { nanoid } from 'nanoid';
 
 export type AlertStatus = 'success' | 'warning' | 'error' | 'info' | 'loading';
@@ -53,6 +63,10 @@ export interface UpdateAlertResponse extends BaseAlertResponse {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RemoveAlertResponse extends BaseAlertResponse {}
 
+export interface AlertBehavior {
+  hovering: boolean;
+}
+
 export interface AlertStoreConfig {
   /**
    * Maximum number of alerts allowed on the screen.
@@ -78,7 +92,12 @@ export interface AlertStoreConfig {
 export class AlertStore {
   private alerts: Alert[] = [];
   private queue: Alert[] = [];
-  private readonly subject = new Subject<Alert[]>();
+  private hoverStartTimes: Map<string, number> = new Map();
+  private elapsedTimes: Map<string, number> = new Map();
+  private readonly alertSubject = new Subject<Alert[]>();
+  private readonly behaviorSubject = new BehaviorSubject<{ hovering: boolean }>(
+    { hovering: false }
+  );
 
   private readonly maxAlerts!: number;
   private readonly showDuration!: number;
@@ -92,6 +111,53 @@ export class AlertStore {
     return this.alerts.length >= this.maxAlerts;
   }
 
+  toggleHovering() {
+    const hovering = this.behaviorSubject.getValue().hovering;
+    return this.behaviorSubject.next({
+      ...this.behaviorSubject.getValue(),
+      hovering: !hovering,
+    });
+  }
+
+  setBehavior(behavior: AlertBehavior) {
+    return this.behaviorSubject.next({
+      ...this.behaviorSubject.getValue(),
+      ...behavior,
+    });
+  }
+
+  private setupTimerForAlert(alertId: string, originalDuration: number) {
+    const timerStartTime = Date.now();
+
+    return this.behaviorSubject
+      .pipe(
+        switchMap((behavior) => {
+          if (behavior.hovering) {
+            this.hoverStartTimes.set(alertId, Date.now());
+            return NEVER;
+          } else {
+            const currentTime = Date.now();
+
+            // Calculate elapsed time while alert was not hovered over
+            const hoverStartTime =
+              this.hoverStartTimes.get(alertId) || currentTime;
+            const nonHoveredDuration = hoverStartTime - timerStartTime;
+
+            // Calculate the remaining duration for the timer
+            const remainingTime = originalDuration - nonHoveredDuration;
+
+            return timer(Math.max(remainingTime, 0));
+          }
+        }),
+        // Ensure the observable completes after one emission to avoid re-entry into the switchMap.
+        take(1)
+      )
+      .subscribe(() => {
+        this.remove(alertId);
+        this.hoverStartTimes.delete(alertId);
+      });
+  }
+
   alert(alert: AlertWithoutId): AddAlertResponse {
     const id = nanoid();
 
@@ -101,12 +167,16 @@ export class AlertStore {
     }
 
     this.alerts = [...this.alerts, { ...alert, id }];
-    this.subject.next(this.alerts);
+    this.alertSubject.next(this.alerts);
 
+    // TODO: Account for showDuration must be greater than 0
     if (!alert.persist) {
-      timer(alert.showDuration || 3000).subscribe(() => {
-        this.remove(id);
-      });
+      const alertDuration = alert.showDuration || 3000;
+      this.setupTimerForAlert(id, alertDuration);
+      // const time = timer(alert.showDuration || 3000).subscribe(() => {
+      //   // TODO: Look into checking if I can pause alert closing if it was marked as delayed.
+      //   this.remove(id);
+      // });
     }
 
     return { id, placedInQueue: false, queueSize: this.queue.length };
@@ -142,7 +212,7 @@ export class AlertStore {
       if (firstQueueElement) this.alert(firstQueueElement);
     }
 
-    this.subject.next(this.alerts);
+    this.alertSubject.next(this.alerts);
     return { id: alertToRemove.id };
   }
 
@@ -164,13 +234,13 @@ export class AlertStore {
       return alert;
     });
 
-    this.subject.next(this.alerts);
+    this.alertSubject.next(this.alerts);
     return updatedAlert;
   }
 
   clear() {
     this.alerts = [];
-    this.subject.next(this.alerts);
+    this.alertSubject.next(this.alerts);
   }
 
   clearQueue() {
@@ -178,6 +248,11 @@ export class AlertStore {
   }
 
   on(callback: (alerts: Alert[]) => void) {
-    return this.subject.subscribe((alerts) => callback(alerts));
+    return this.alertSubject.subscribe((alerts) => callback(alerts));
+  }
+
+  cleanUp() {
+    this.alertSubject.unsubscribe();
+    this.behaviorSubject.unsubscribe();
   }
 }

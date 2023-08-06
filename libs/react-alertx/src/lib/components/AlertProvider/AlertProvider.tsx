@@ -58,23 +58,25 @@ const AlertItemRender: FC<{
     return components.alertComponent(alert);
 
   return (
-    <AlertItem
-      key={alert.id}
-      status={alert.status}
-      message={alert.message}
-      title={alert?.title}
-      display={{ closeAction: true }}
-      onClose={onClose}
-      actions={
-        typeof alert.actions === 'function'
-          ? alert.actions(alert)
-          : (Array.isArray(alert.actions) &&
-              alert.actions.every(isValidElement)) ||
-            isValidElement(alert.actions)
-          ? alert.actions
-          : undefined
-      }
-    />
+    <div className="alert-wrapper">
+      <AlertItem
+        key={alert.id}
+        status={alert.status}
+        message={alert.message}
+        title={alert?.title}
+        display={{ closeAction: true }}
+        onClose={onClose}
+        actions={
+          typeof alert.actions === 'function'
+            ? alert.actions(alert)
+            : (Array.isArray(alert.actions) &&
+                alert.actions.every(isValidElement)) ||
+              isValidElement(alert.actions)
+            ? alert.actions
+            : undefined
+        }
+      />
+    </div>
   );
 };
 
@@ -95,6 +97,14 @@ export const AlertProvider: FC<AlertProviderProps> = ({
       alertStore.unsubscribe();
     };
   }, [store]);
+
+  const handleMouseEnter = () => {
+    store.toggleHovering();
+  };
+
+  const handleMouseLeave = () => {
+    store.toggleHovering();
+  };
 
   return (
     <>
@@ -122,8 +132,11 @@ export const AlertProvider: FC<AlertProviderProps> = ({
           {alerts.map((alert) => {
             console.log({ status: alert.status });
             return (
-              <AlertWrapper key={alert.id}>
-                {/* TODO: Make known that alert id is always there */}
+              <AlertWrapper
+                key={alert.id}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
                 <AlertItemRender
                   onClose={() => store.remove(alert.id)}
                   alert={alert}

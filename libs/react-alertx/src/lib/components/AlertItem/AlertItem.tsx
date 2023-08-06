@@ -1,5 +1,5 @@
 import { AlertStatus } from '@alertx/core';
-import { FC, ReactNode } from 'react';
+import { ComponentPropsWithRef, FC, ReactNode, forwardRef } from 'react';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import WarningIcon from '../Icons/WarningIcon/WarningIcon';
 import ErrorIcon from '../Icons/ErrorIcon/ErrorIcon';
@@ -8,7 +8,7 @@ import CloseIcon from '../Icons/CloseIcon/CloseIcon';
 import IconButton from '../IconButton/IconButton';
 import styled from '@emotion/styled';
 
-const ALERT_ICON_DEFAULTS: Required<AlertProps['icons']> = {
+const ALERT_ICON_DEFAULTS: Required<AlertItemProps['icons']> = {
   warning: <WarningIcon color="var(--ax-color-warning)" />,
   error: <ErrorIcon color="var(--ax-color-error)" />,
   success: <SuccessIcon color="var(--ax-color-success)" />,
@@ -16,7 +16,7 @@ const ALERT_ICON_DEFAULTS: Required<AlertProps['icons']> = {
   loading: '',
 };
 
-const STATUS_COLOR_DEFAULTS: Required<AlertProps['colors']> = {
+const STATUS_COLOR_DEFAULTS: Required<AlertItemProps['colors']> = {
   warning: 'var(--ax-color-warning)',
   error: 'var(--ax-color-error)',
   info: 'black',
@@ -24,7 +24,7 @@ const STATUS_COLOR_DEFAULTS: Required<AlertProps['colors']> = {
   loading: 'gray',
 };
 
-export interface AlertProps {
+export interface AlertItemProps extends ComponentPropsWithRef<'aside'> {
   title?: string;
   message: string;
   icons?: Partial<Record<AlertStatus, ReactNode>>;
@@ -38,52 +38,59 @@ export interface AlertProps {
   onClose?: () => void;
 }
 
-export const AlertItem: FC<AlertProps> = ({
-  message,
-  title,
-  actions,
-  className,
-  colors = STATUS_COLOR_DEFAULTS,
-  status = 'info',
-  ...props
-}) => {
-  const statusColors = { ...STATUS_COLOR_DEFAULTS, ...colors };
+export const AlertItem = forwardRef<HTMLDivElement, AlertItemProps>(
+  (
+    {
+      message,
+      title,
+      actions,
+      className,
+      colors = STATUS_COLOR_DEFAULTS,
+      status = 'info',
+      ...props
+    },
+    ref
+  ) => {
+    const statusColors = { ...STATUS_COLOR_DEFAULTS, ...colors };
 
-  return (
-    <AlertRoot
-      className={className}
-      message={message}
-      status={status}
-      colors={colors}
-    >
-      <AlertDetailsDiv>
-        <AlertIconWrapper>
-          {status === 'loading' ? (
-            <LoadingSpinner />
-          ) : (
-            <AlertIcon statusColors={statusColors} status={status}>
-              {ALERT_ICON_DEFAULTS[status]}
-            </AlertIcon>
+    return (
+      <AlertRoot
+        {...props}
+        ref={ref}
+        className={className}
+        message={message}
+        status={status}
+        colors={colors}
+      >
+        <AlertDetailsDiv>
+          <AlertIconWrapper>
+            {status === 'loading' ? (
+              <LoadingSpinner />
+            ) : (
+              <AlertIcon statusColors={statusColors} status={status}>
+                {ALERT_ICON_DEFAULTS[status]}
+              </AlertIcon>
+            )}
+          </AlertIconWrapper>
+
+          <AlertMessageDiv className="alert__message">
+            <AlertTitleSpan>{title}</AlertTitleSpan>
+            <span className="alert-span">{message}</span>
+          </AlertMessageDiv>
+        </AlertDetailsDiv>
+
+        <AlertActionDiv>
+          {actions}
+          {props?.display?.closeAction && (
+            <IconButton onClick={props?.onClose}>
+              <CloseIcon width={16} height={16} />
+            </IconButton>
           )}
-        </AlertIconWrapper>
-
-        <AlertMessageDiv className="alert__message">
-          <AlertTitleSpan>{title}</AlertTitleSpan>
-          <span className="alert-span">{message}</span>
-        </AlertMessageDiv>
-      </AlertDetailsDiv>
-
-      <AlertActionDiv>
-        {actions}
-        {props?.display?.closeAction && (
-          <IconButton onClick={props?.onClose}>
-            <CloseIcon width={16} height={16} />
-          </IconButton>
-        )}
-      </AlertActionDiv>
-    </AlertRoot>
-  );
-};
+        </AlertActionDiv>
+      </AlertRoot>
+    );
+  }
+);
 
 const AlertDetailsDiv = styled('div', { label: 'alert__details-div' })`
   display: flex;
@@ -91,7 +98,7 @@ const AlertDetailsDiv = styled('div', { label: 'alert__details-div' })`
   gap: 0.6rem;
 `;
 
-const AlertRoot = styled('div', { label: 'alert' })<AlertProps>`
+const AlertRoot = styled('div', { label: 'alert' })<AlertItemProps>`
   display: flex;
   justify-content: space-between;
   padding: 14px;
@@ -107,7 +114,7 @@ const AlertRoot = styled('div', { label: 'alert' })<AlertProps>`
 `;
 
 const AlertIcon = styled('div', { label: 'alert-icon' })<{
-  statusColors: Required<AlertProps['colors']>;
+  statusColors: Required<AlertItemProps['colors']>;
   status: AlertStatus;
 }>``;
 
