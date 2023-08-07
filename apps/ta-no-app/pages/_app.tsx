@@ -3,7 +3,7 @@ import Head from 'next/head';
 import './styles.css';
 import { AlertProvider, AlertStore } from '@alertx/react-alertx';
 
-const alertStore = new AlertStore({});
+const alertStore = new AlertStore({ maxAlerts: 20});
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (

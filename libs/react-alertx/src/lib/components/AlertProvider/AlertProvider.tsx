@@ -1,4 +1,10 @@
-import { Alert, AlertStatus, AlertStore } from '@alertx/core';
+import {
+  Alert,
+  AlertStatus,
+  AlertStore,
+  xLocation,
+  yLocation,
+} from '@alertx/core';
 import {
   FC,
   PropsWithChildren,
@@ -6,19 +12,11 @@ import {
   useState,
   isValidElement,
   ReactElement,
+  CSSProperties,
 } from 'react';
 import { AlertContext } from '../../contexts/AlertContext';
 import { AlertItem } from '../AlertItem/AlertItem';
 import styled, { keyframes } from 'styled-components';
-
-const AlertContainer = styled.div`
-  position: fixed;
-  left: 1rem;
-  bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
 
 const fadeIn = keyframes`
   0% { transform: translateX(-105%); }
@@ -106,6 +104,115 @@ export const AlertProvider: FC<AlertProviderProps> = ({
     store.toggleHovering();
   };
 
+  /**
+   * @TODO
+   * Abstract away from provider
+   * @ODO
+   * rename ro xOrigin, yOrigin
+   */
+
+  const xLocations: xLocation[] = ['left', 'center', 'right'];
+  const yLocations: yLocation[] = ['top', 'center', 'bottom'];
+
+  /**
+   * @TODO
+   * Abstract away from provider
+   */
+
+  const getOriginContainers = () => {
+    let locations: {
+      xLocation: xLocation;
+      yLocation: yLocation;
+    }[] = [];
+
+    for (
+      let xLocationIndex = 0;
+      xLocationIndex < xLocations.length;
+      xLocationIndex++
+    ) {
+      const xLocation = xLocations[xLocationIndex] as any;
+
+      for (
+        let yLocationIndex = 0;
+        yLocationIndex < yLocations.length;
+        yLocationIndex++
+      ) {
+        const yLocation = yLocations[yLocationIndex] as any;
+
+        locations = [
+          ...locations,
+          { xLocation: xLocation, yLocation: yLocation },
+        ];
+      }
+    }
+
+    return locations;
+  };
+
+  /**
+   * @TODO
+   * Abstract away from provider
+   */
+  const getAlertsByLocation = (location: { x: xLocation; y: yLocation }) => {
+    return alerts.filter(
+      (alert) =>
+        alert.anchorOrigin?.x === location.x &&
+        alert.anchorOrigin.y === location.y
+    );
+  };
+
+  /**
+   * @TODO
+   * Abstract away from provider
+   */
+  const getAnchorOriginCss = (params: {
+    x: xLocation;
+    y: yLocation;
+    offset?: string | number;
+  }): CSSProperties => {
+    let cssStyles: CSSProperties = {};
+    const offset = params.offset || '1rem';
+
+    if (params.x === 'right' || params.x === 'left') {
+      cssStyles = { ...cssStyles, [params.x]: offset };
+    }
+
+    if (params.y === 'top' || params.y === 'bottom') {
+      cssStyles = { ...cssStyles, [params.y]: offset };
+    }
+
+    if (params.x === 'center' || params.y === 'center') {
+      cssStyles = {
+        ...cssStyles,
+        ...(params.x === 'center' && { left: '50%' }),
+        ...(params.y === 'center' && { top: '50%' }),
+        transform: `translate(${params.x === 'center' ? '-50%' : 0}, ${
+          params.y === 'center' ? '-50%' : 0
+        })`,
+      };
+    }
+
+    return cssStyles || { left: offset, bottom: offset };
+  };
+
+  const handleWindowFocusEvent = (event: FocusEvent) => {
+    store.unpauseRemoval();
+  };
+
+  const handleWindowBlurEvent = (event: FocusEvent) => {
+    store.pauseRemoval();
+  };
+
+  useEffect(() => {
+    window.addEventListener('focus', handleWindowFocusEvent);
+    window.addEventListener('blur', handleWindowBlurEvent);
+
+    return () => {
+      window.removeEventListener('focus', handleWindowFocusEvent);
+      window.removeEventListener('blur', handleWindowBlurEvent);
+    };
+  }, []);
+
   return (
     <>
       <AlertContext.Provider
@@ -128,24 +235,47 @@ export const AlertProvider: FC<AlertProviderProps> = ({
           },
         }}
       >
-        <AlertContainer>
-          {alerts.map((alert) => {
-            console.log({ status: alert.status });
-            return (
-              <AlertWrapper
-                key={alert.id}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              >
-                <AlertItemRender
-                  onClose={() => store.remove(alert.id)}
-                  alert={alert}
-                  components={Components}
-                />
-              </AlertWrapper>
-            );
-          })}
-        </AlertContainer>
+        {getOriginContainers().map((location) => {
+          return (
+            <div
+              key={JSON.stringify(location)}
+              style={{
+                ...getAnchorOriginCss({
+                  x: location.xLocation,
+                  y: location.yLocation,
+                }),
+                position: 'fixed',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem',
+              }}
+            >
+              {getAlertsByLocation({
+                x: location.xLocation,
+                y: location.yLocation,
+              }).map((alert) => {
+                console.log({
+                  status: alert.status,
+                  xLoc: alert.anchorOrigin?.x,
+                  yLoc: alert.anchorOrigin?.y,
+                });
+                return (
+                  <AlertWrapper
+                    key={alert.id}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <AlertItemRender
+                      onClose={() => store.remove(alert.id)}
+                      alert={alert}
+                      components={Components}
+                    />
+                  </AlertWrapper>
+                );
+              })}
+            </div>
+          );
+        })}
 
         {children}
       </AlertContext.Provider>

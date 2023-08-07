@@ -8,9 +8,11 @@ export function Index() {
 
   const addAlert = (type: 'success' | 'warning' | 'error' | 'loading') => {
     if (type === 'success') {
-      alert(<div style={{ color: 'red' }}>Hello</div>, { status: 'success' });
+      alert(<div style={{ color: 'red' }}>Hello</div>, {
+        status: 'success',
+        anchorOrigin: { x: 'right', y: 'center' },
+      });
     }
-
     if (type === 'warning') {
       alert('This is warning message', { status: 'warning' });
     }
